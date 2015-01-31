@@ -8,54 +8,35 @@
         .fail {
             background-color: #e97070;
         }
+        .wide {
+            display: block;
+            color:white;
+            background-color:black;
+            width: 200px;
+        }
+        .narrow {
+            width: 100px;
+        }
     </style>
-    <script src="../scripts/THORN/THORN.js"></script>
-    <script src="../scripts/THORN/properties/properties.js"></script>
-    <script src="../scripts/THORN/chainables/selectors.js"></script>
-    <script src="../scripts/THORN/chainables/events.js"></script>
-    <script src="../scripts/THORN/chainables/appearance.js"></script>
-    <script src="../scripts/THORN/chainables/content.js"></script>
+    <script src="../scripts/THORN.js"></script>
+    <script src="../scripts/properties/properties.js"></script>
+    <script src="../scripts/methods/class.js"></script>
+    <script src="../scripts/chainables/selectors.js"></script>
+    <script src="../scripts/chainables/events.js"></script>
+    <script src="../scripts/chainables/style.js"></script>
+    <script src="../scripts/chainables/class.js"></script>
+    <script src="../scripts/chainables/content.js"></script>
     <script type="text/javascript">
-        þ.extend('THORN', {
-
-            loadPlugins: function (elem) {
-                if (!elem) return;
-                þ(elem || document.body).find('[data-plugin]').each(function () {
-                    var þthis = þ(this);
-                    var plugin = this.dataset.plugin;
-                    if (plugin != null) {
-                        þ.plugins[plugin](this);
-                        if (typeof þ.plugins[plugin] == 'object' && typeof þ.plugins[plugin].start == 'function')
-                            þ.plugins[plugin].start();
-                    }
-                }, true); // get raw Nodes
-            },
-
-            guid: function () {
-                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
-                    .replace(/[xy]/g, function (c) {
-                        var r = Math.random() * 16 | 0,
-                                v = c == 'x' ? r : r & 0x3 | 0x8;
-                        return v.toString(16);
-                    });
-            }
-        });
 
         þ.addPlugin({
             TESTPLUGIN: function (elem) {
                 var info = {
-                    namespace: "com.tzadvantage.OSM",
                     author: "TZ Advantage Ltd.",
                     version: "1.0",
                     date: "2015-01-17 05:00+07:00"
                 }
 
-                var settings = {};
-
-                //this.start = function () { alert("Hallo"); }
-
-                TESTPLUGIN(elem);
-                return;
+                return TESTPLUGIN(elem);
 
                 //Instance for every html node
                 function TESTPLUGIN(elem) {
@@ -65,16 +46,11 @@
 
                     þMe
                         .bind('click', function (e) {
-                            þMe.innerHTML = 'clicked';
                             þMe.style({ backgroundColor: 'yellow' });
                         })
-                        .bind('testme', function (e) {
-                            var text = e.detail || "{no detail}";
-                            var o = þMe.html(text);
-                            o.style({ backgroundColor: 'cyan' });
+                        .bind('changebackground', function (e) {
+                            þMe.style({ backgroundColor: e.detail });
                         });
-
-
                 }
             }
         });
@@ -82,16 +58,44 @@
     <title></title>
 </head>
 <body>
-    <h5>Plugin:</h5>
-    <div data-plugin="TESTPLUGIN">Click to change background color to yellow</div>
-    <button id="runtests">Run All Tests</button>
-    <hr />
+    <div id="plugin">
+        <h5>Plugin:</h5>
+        <div data-plugin="TESTPLUGIN">Click on this text to change background color to yellow</div>
+        <button>Change background to cyan</button>
+    </div>
+<hr />
+    <div id="parents">
+        <h5>parents</h5>
+      
+          <ul>First list
+            <li>first line</li>
+        </ul>
+
+        <ul>second list
+            <li>first line</li>
+        </ul>
+        <button>Make LI parent (UL) color blue and LI color RED</button>
+    </div>
+<hr />
+    <div id="addclass">
+        <h5>addClass</h5>
+        <div>
+            Hi;
+        </div>
+    </div>
+<hr />
     <ul id="testoutput"></ul>
 </body>
 <script type="text/javascript">
-    þ.ready(function (event) {
-        þ('#runtests').bind('click', function (e) {
-            þ('[data-plugin]').fire('testme', "fire('testme')!");
+    þ.onready(function (event) {
+        þ('#plugin>button').bind('click', function (e) {
+            þ('#plugin>[data-plugin="TESTPLUGIN"]').fire('changebackground', 'cyan');
+        });
+
+        þ('#parents>button').bind('click', function (e) {
+            var n = þ('#parents>ul>li:first-child');
+            n.style({ color: 'red' });
+            n.parents().style({ color: 'blue' });
         });
 
         var output = document.getElementById('testoutput');
@@ -111,7 +115,48 @@
                 }
                 )(), "þ('body')");
 
+        assert((
+            function () {
+                return þ('#addclass>div').addClass('wide').clientWidth == 200;
+            }
+            )(), "þ('#addclass>div').addClass('wide');");
 
+        assert((
+            function () {
+                return þ('#addclass>div').addClass('narrow').clientWidth == 100;
+            }
+            )(), "þ('#addclass>div').addClass('narrow');");
+
+        assert((
+            function () {
+                return þ('#addclass>div').addClass('dummy').clientWidth == 100;
+            }
+            )(), "þ('#addclass>div').addClass('dummy');");
+
+        assert((
+            function () {
+                return þ('#addclass>div').removeClass('narrow').clientWidth == 200;
+            }
+            )(), "þ('#addclass>div').removeClass('narrow');");
+
+        assert((
+            function () {
+                return þ('#addclass>div').removeClass('dummy').clientWidth == 200;
+            }
+            )(), "þ('#addclass>div').removeClass('dummy');");
+
+        assert((
+            function () {
+                return þ('#addclass>div').addClass('narrow').clientWidth == 100;
+            }
+            )(), "þ('#addclass>div').addClass('narrow');");
+
+        assert((
+            function () {
+                þ('#addclass>div').innerHTML = "Hello";
+                return þ('#addclass>div').innerHTML == "Hello";
+            }
+            )(), "þ('#addclass>div').innerHTML = 'Hello');");
 
     });
 </script>

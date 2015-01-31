@@ -1,4 +1,5 @@
 ﻿þ.extend('CHAINABLES', {
+    //Iterate over the nodes array
     each: function (callback, rawNode) {
         var i, l;
         for (i = 0, l = this.nodes.length; i < l; i++) {
@@ -6,21 +7,33 @@
                 break;
         }
         return this;
-    }
-    ,
-    parent: function () {
+    },
+
+    //Select the parent of the first node
+    parent: function (/*TODO ADD A FILTER */) {
+        return this.length ? þ(this.nodes[0].parentNode) : null;
+    },
+
+    //Select the parents from all the nodes
+    parents: function (/*TODO ADD A FILTER */) {
         var result = [], parent;
         this.each(function () {
             parent = this.parentNode;
-            if (!parent._counted) {
+            if (!parent.__tagged) {
                 result[result.length] = parent;
-                parent._counted = true;
+                //Tag the parent to prevent doubles.
+                parent.__tagged = true;
             }
         }, true);
-        return THORN(result).each(function () {
-            delete this._counted;
-        });
+        return þ(result).each(function () {
+            //Cleanup the nodes
+            delete this.__tagged;
+        }, true);
     },
+
+    //Select nodes within the context of the first node
+    //TODO Add support to find the nodes within all the nodes
+    //not only the first one.
     find: function (selector) {
         if (selector.indexOf(">") == 0) {
             //Direct children is not supported by queryselectorall
@@ -31,32 +44,4 @@
         }
         return þ(selector, this.nodes[0]);
     }
-/*    ,
-    selfOrParent: function (nodeNameOrAttrName, attrValue) {
-        var elem = this[0];
-        var n = nodeNameOrAttrName.toLowerCase();
-        if (arguments.length == 1) {
-            while (elem.nodeName != "BODY") {
-                if (elem.nodeName.toLowerCase() == n)
-                    return $(elem);
-                elem = elem.parentNode;
-            }
-            return null;
-        }
-        if (arguments.length == 2) {
-            while (elem.nodeName != "BODY") {
-                if (attrValue == null) {
-                    if (elem.getAttribute(nodeNameOrAttrName) != null)
-                        return $(elem);
-                }
-                else {
-                    if (elem.getAttribute(nodeNameOrAttrName) == attrValue)
-                        return $(elem);
-                }
-                elem = elem.parentNode;
-            }
-            return null;
-        }
-    },
-*/
 });
