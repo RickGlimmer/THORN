@@ -12,7 +12,7 @@
             return this.nodes[0].innerHTML;
         }
     },
-
+    firstNode: { get: function () { return this.nodes[0] } },
     clientWidth: { get: function () { return this.nodes[0].clientWidth; } },
     offsetWidth: { get: function () { return this.nodes[0].offsetWidth; } },
     scrollWidth: { get: function () { return this.nodes[0].scrollWidth; } },

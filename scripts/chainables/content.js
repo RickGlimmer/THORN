@@ -33,7 +33,9 @@
 */
     html: function (value) {
         if (value === undefined) return this.innerHTML;
-        this.innerHTML = value;
+        this.each(function () {
+            this.innerHTML = value;//innerHTML on the þ node shortcut for this.nodes[i].innerHTML
+        });
         if (value.indexOf("[data-plugin]") > 0) {
             þ.loadPlugins(this);
         }

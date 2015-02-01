@@ -84,16 +84,7 @@
     //THORN collects all onready functions
     onLoadFunctions = []
 
-    THORN.onready = function (fn) {
-        //First time called setup the event
-        if (onLoadFunctions.length === 0) {
-            document.addEventListener('DOMContentLoaded', DOMReady, false);
-        }
-        //register the onready function
-        onLoadFunctions.push(fn);
-    }
-
-    //First attaches all Plugins toits nodes and then calls the
+    //First attaches all Plugins to their nodes and then calls the
     //registered onready functions one by one.
     DOMReady = function () {
         THORN.loadPlugins(document.body);
@@ -104,6 +95,13 @@
         onLoadFunctions = null;
         document.removeEventListener('DOMContentLoaded', DOMReady, false);
     };
+
+    THORN.onready = function (fn) {
+        //register the onready function
+        onLoadFunctions.push(fn);
+    }
+
+    document.addEventListener('DOMContentLoaded', DOMReady, false);
 
     //Create a unique identifier
     //I am not sure where this code comes from!
