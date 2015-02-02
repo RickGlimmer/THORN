@@ -37,7 +37,7 @@
             this.innerHTML = value;//innerHTML on the þ node shortcut for this.nodes[i].innerHTML
         });
         if (value.indexOf("[data-plugin]") > 0) {
-            þ.loadPlugins(this);
+            þ.attachPlugins(this);
         }
         return this;
     }
@@ -52,7 +52,7 @@
                     { async: true, method: 'GET', context: this[0] },
                     function (req, context) {
                         context.innerHTML = req.responseText;
-                        $.loadPlugins(context);
+                        $.attachPlugins(context);
                         if (typeof onSuccess == 'function')
                             onSuccess(context, req);
                     },

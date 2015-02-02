@@ -70,7 +70,7 @@
     //Plugins can be attached to DOM nodes by adding a data-plugin="PluginName" attribute
     //This function is called after the DOM has been loaded.
     //But before user content is dynamically loaded.
-    THORN.loadPlugins = function (elem) {
+    THORN.attachPlugins = function (elem) {
         if (!elem) return; // fast exit
         þ(elem).find('[data-plugin]').each(function () {
             var pluginName = this.dataset.plugin;
@@ -80,6 +80,13 @@
         }, true); // get raw Nodes
     }
 
+    //Fire a 'detach' event on all plugins within an element
+    //plugin has to cleanup after itself by removing its eventlisteners
+    //This gets called before dynamic content is loaded into the element
+    THORN.detachPlugins = function (elem) {
+        if (!elem) return; // fast exit
+        þ(elem).find('[data-plugin]').fire("detach");
+    }
 
     //THORN collects all onready functions
     onLoadFunctions = []
@@ -87,7 +94,7 @@
     //First attaches all Plugins to their nodes and then calls the
     //registered onready functions one by one.
     DOMReady = function () {
-        THORN.loadPlugins(document.body);
+        THORN.attachPlugins(document.body);
         var i, l;
         for (i = 0, l = onLoadFunctions.length; i < l; i++) {
             onLoadFunctions[i]();
