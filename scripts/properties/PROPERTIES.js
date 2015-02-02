@@ -52,6 +52,16 @@
         }
     },
 
+    getAttribute: { get: function (attrname) { return this.nodes[0].getAttribute(attrname) } },
+
+    //To retrieve a style:
+    //color = þ('body').style("color")
+    style: {
+        get: function (attrib) {
+            return window.getComputedStyle(this.nodes[0], null).getPropertyValue(attrib);
+        }
+    },
+    
     value: {
         get: function () {
             var node = this.nodes[0];
