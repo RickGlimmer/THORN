@@ -19,16 +19,25 @@
         }
     </style>
     <script src="../scripts/THORN.js"></script>
+    <!--First load the extensions-->
+    <script src="../scripts/extensions/properties.js"></script>
+    <script src="../scripts/extensions/plugin.js"></script>
+    <!--then the properties-->
     <script src="../scripts/properties/properties.js"></script>
+    <!--then the methods-->
+    <script src="../scripts/methods/content.js"></script>
     <script src="../scripts/methods/class.js"></script>
-    <script src="../scripts/chainables/selectors.js"></script>
-    <script src="../scripts/chainables/events.js"></script>
-    <script src="../scripts/chainables/style.js"></script>
+    <!--and finally the chainables-->
     <script src="../scripts/chainables/class.js"></script>
     <script src="../scripts/chainables/content.js"></script>
+    <script src="../scripts/chainables/events.js"></script>
+    <script src="../scripts/chainables/selectors.js"></script>
+    <script src="../scripts/chainables/style.js"></script>
+
+    <!--After that load your own plugins-->
     <script type="text/javascript">
 
-        þ.addPlugin({
+        þ.plugin.add({
             TESTPLUGIN: function (elem) {
                 var info = {
                     author: "TZ Advantage Ltd.",
@@ -36,22 +45,19 @@
                     date: "2015-01-17 05:00+07:00"
                 }
 
-                return TESTPLUGIN(elem);
-
-                //Instance for every html node
-                function TESTPLUGIN(elem) {
-                    var me = elem;
-                    var þMe = þ(me);
-                    var data = me.dataset;
+                return (function (el) {
+                    var þMe = þ(el);
+                    var data = þMe.dataset;
 
                     þMe
                         .bind('click', function (e) {
+                            e.stopPropagation();
                             þMe.style({ backgroundColor: 'yellow' });
                         })
                         .bind('changebackground', function (e) {
                             þMe.style({ backgroundColor: e.detail });
                         });
-                }
+                })(elem);
             }
         });
     </script>
@@ -90,11 +96,15 @@
 </body>
 <script type="text/javascript">
     þ.onready(function (event) {
+        þ(document).bind('click', function (e) { alert("Click event bubbled to Document!"); });
+
         þ('#plugin>button').bind('click', function (e) {
+            e.stopPropagation();
             þ('#plugin>[data-plugin="TESTPLUGIN"]').fire('changebackground', 'cyan');
         });
 
         þ('#parents>button').bind('click', function (e) {
+            e.stopPropagation();
             var n = þ('#parents>ul>li:first-child');
             n.style({ color: 'red' });
             n.parents().style({ color: 'blue' });
