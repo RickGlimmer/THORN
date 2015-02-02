@@ -32,8 +32,7 @@
     },
 
     //Select nodes within the context of the first node
-    //TODO Add support to find the nodes within all the nodes
-    //not only the first one.
+    //TODO Add support to find the nodes within all the this.nodes
     find: function (selector) {
         if (selector.indexOf(">") == 0) {
             //Direct children is not supported by queryselectorall
