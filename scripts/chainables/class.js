@@ -1,5 +1,5 @@
 ﻿þ.extend('CHAINABLES', {
-
+    //Add a single or an array of classes to this.nodes
     addClass: function (values) {
         var i, þnodes = this;
 
@@ -19,6 +19,7 @@
         }, true);
     },
 
+    //Remove a single or an array of classes from this.nodes
     removeClass: function (values) {
         var i;
 
@@ -26,7 +27,6 @@
 
         return this.each(function (nodeIndex) {
             for (i = 0; i < values.length; i++) {
-                //
                 var classNames = this.className.split(' ');
                 var position = classNames.indexOf(values[i]);
                 if (position >= 0) {
