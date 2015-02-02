@@ -1,9 +1,8 @@
 ﻿þ.extend('CHAINABLES', {
-    
-    style: function (attrib, value) {
-        if (typeof attrib === 'string' && value === undefined) {
-            return window.getComputedStyle ? window.getComputedStyle(this[0], null).getPropertyValue(attrib) : this[0].currentStyle.getAttribute(attrib);
-        }
+    //To set a css:
+    //þ('body').style("color","black") or
+    //þ('body').style({color: black }) 
+    css: function (attrib, value) {
         if (typeof attrib !== 'object') {
             attrib[attrib] = value;
         }
