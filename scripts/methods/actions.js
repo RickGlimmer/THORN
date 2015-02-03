@@ -1,15 +1,20 @@
 ﻿//TODO add support for constants to THORN and make them easy to access
 //Untested!!
 þ.extend('CONSTANTS', {
-    ACTIONS: { DONE: true, FINISHED: true, ABORT: true, CONTINUE: false }
+    ACTIONS: (function() { 
+        var o = Object.create(null);
+        o.DONE = true; o.FINISHED = true; o.ABORT = true; o.CONTINUE = false;
+        return o;//Object.freeze(o);
+    })()
 });
 /* THORN actions extension */
+/*
 þ.extend('CHAINABLEMETHODS', {
     actions: function (eventtype, overload, callBack) {
         return this.bind(eventtype, function () {
             this.each(function () {
                 var elem = this.nodes[0];
-                var $target = $(elem);
+                var þtarget = þ(elem);
                 var result = [];
                 var overLoadCommands = "";
                 var callBackFunction = null;
@@ -20,14 +25,14 @@
                     overLoadCommands = " " + overload + " ";
                     callBackFunction = callBack;
                 }
-                var attrvalue = $target.attr("data-action");
+                var attrvalue = þtarget.attr("data-action");
                 var actions = attrvalue ? attrvalue.split(');') : [];
                 for (var i = 0; i < actions.length - 1; i++) {
                     var parts = actions[i].split("(");
                     var command = parts[0];
                     var params = parts[1] == "" ? [] : parts[1].substring(1).split('","');
                     var action = {
-                        $target: $target,
+                        þtarget: þtarget,
                         command: command,
                         params: [],
                         data: null,
@@ -81,33 +86,33 @@
                 delete window._actions;
                 return;
             }
-            var actionResult = $.ACTIONS.CONTINUE;
+            var actionResult = þ.ACTIONS.CONTINUE;
             var overloaded = action.overLoadCommands.indexOf(" " + action.command + " ") >= 0;
             if (action) {
                 if (overloaded && action.callBackFunction)
-                    actionResult = action.callBackFunction("before", action) || $.ACTIONS.CONTINUE;
-                if (actionResult == $.ACTIONS.CONTINUE) {
+                    actionResult = action.callBackFunction("before", action) || þ.ACTIONS.CONTINUE;
+                if (actionResult == þ.ACTIONS.CONTINUE) {
                     if (overloaded && action.callBackFunction)
-                        actionResult = action.callBackFunction("execute", action) || $.ACTIONS.CONTINUE;
-                    if (actionResult == $.ACTIONS.CONTINUE) {
+                        actionResult = action.callBackFunction("execute", action) || þ.ACTIONS.CONTINUE;
+                    if (actionResult == þ.ACTIONS.CONTINUE) {
                         switch (action.command) {
                             case "CONFIRM":
                                 var answer = window.confirm(action.params[0]);
                                 if (!answer) {
-                                    actionResult = $.ACTIONS.FINISHED;
-                                    action.abort = $.ACTIONS.ABORT;
+                                    actionResult = þ.ACTIONS.FINISHED;
+                                    action.abort = þ.ACTIONS.ABORT;
                                 }
                                 break;
                             case "SHOW":
-                                $(action.params[0]).show();
+                                þ(action.params[0]).show();
                                 break;
                             case "HIDE":
-                                $(action.params[0]).hide();
+                                þ(action.params[0]).hide();
                                 break;
                         }
                     }
                 }
-                if (actionResult == $.ACTIONS.CONTINUE) {
+                if (actionResult == þ.ACTIONS.CONTINUE) {
                     if (overloaded && action.callBackFunction) {
                         action.callBackFunction("after", action);
                     }
@@ -117,7 +122,7 @@
 
             if (window._actions) {
                 if (window._actions.length > 0) {
-                    if (action.abort == $.ACTIONS.ABORT) {
+                    if (action.abort == þ.ACTIONS.ABORT) {
                         delete window._actions;
                     }
                     else if (!action.executeWait) {
@@ -132,3 +137,4 @@
     }
 
 });
+*/
