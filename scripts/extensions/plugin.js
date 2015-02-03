@@ -1,4 +1,4 @@
-﻿þ.extend('THORN', {
+﻿þ.extend('EXTENSION', {
 
     //extend THORNs capabilities to allow Plugins for custom functionality
     plugin: (function () {
