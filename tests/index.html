@@ -17,17 +17,20 @@
         .narrow {
             width: 100px;
         }
+        [^data] {
+            color: red;
+        }
     </style>
     <script src="../scripts/THORN.js"></script>
-    <!--First load the extensions-->
+    <!--First load the extensions to the THORN object-->
     <script src="../scripts/extensions/properties.js"></script>
     <script src="../scripts/extensions/plugin.js"></script>
-    <!--then the properties-->
+    <!--then the properties that set and get values.-->
     <script src="../scripts/properties/properties.js"></script>
-    <!--then the methods-->
-    <script src="../scripts/methods/content.js"></script>
+    <!--then the methods that return a value for all your class actions suits :) -->
     <script src="../scripts/methods/class.js"></script>
-    <!--and finally the chainables-->
+    <script src="../scripts/methods/actions.js"></script>
+    <!--and finally the chainables that return a THORN object that can be chained-->
     <script src="../scripts/chainables/class.js"></script>
     <script src="../scripts/chainables/content.js"></script>
     <script src="../scripts/chainables/events.js"></script>
@@ -91,11 +94,17 @@
             Hi;
         </div>
     </div>
+
+    <div id="actions">
+        <div data-action-click="">click</div>
+        <div data-action-hover="">hover</div>
+    </div>
 <hr />
     <ul id="testoutput"></ul>
 </body>
 <script type="text/javascript">
     þ.onready(function (event) {
+        //þ('[^data]').css("color", "red");
         þ(document).bind('click', function (e) { alert("Click event bubbled to Document!"); });
 
         þ('#plugin>button').bind('click', function (e) {
