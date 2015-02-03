@@ -1,14 +1,15 @@
 ﻿/*
  þ THORN: micro FrameWork (jQuery style syntax)
  Author: Rick Glimmer
- Date: 2015-02-02 21:15+07:00
+ Date: 2015-02-02 21:15+07:00 until .... see commit
  Version: 0.1
 */
 "use strict";
 (function () {
     //Objects to hold all added functionalities
-    var _Chainables = Object.create(null);
+    var _Methods = {};//Object.create(null);
     var _Properties = Object.create(null);
+    var _Constants = Object.create(null);
 
     //This is the global selector function
     var THORN = function (query, context) {
@@ -23,23 +24,22 @@
     var getNodes = function (selector, context) {
         var i, l, nodeType;
         var root = context || document;
-        var o = Object.create(_Chainables, _Properties);
+        var o = Object.create(_Methods, _Properties);
+        o.nodes = [];
 
         if (selector === window)
-            o.nodes = [window];
+            o.nodes.push(window);
         else if (selector.nodeType)
-            o.nodes = [selector];
+            o.nodes.push(selector);
         else if (selector instanceof Array) {  // An array with nodes
-            o.nodes = [];
-            for (i = 0, l = selector.length; i < l; i++) {
-                o.nodes[i] = selector[i];
-            }
+            //Do we need tocheck if every item is a node type 1 or 9?
+            Array.prototype.push.apply(o.nodes, selector);
         }
-        else if (
-                !(!selector || typeof selector !== "string") ||
-	            !(((nodeType = root.nodeType) !== 1 && nodeType !== 9))
-            )
-            o.nodes = root.querySelectorAll(selector);
+        else
+            if (typeof selector === 'string' && (root.nodeType == 1 || root.nodeType == 9))
+                //Change static nodelist into a static array
+                //improves iterating performance
+                Array.prototype.push.apply(o.nodes, root.querySelectorAll(selector));
         return o;
     }
 
@@ -47,13 +47,15 @@
     THORN.extend = function (targetname, obj) {
         var prop, target, sealed;
         switch (targetname) {
-            case 'CHAINABLEMETHODS': //Falls through as there is no separate methods object
-            case 'CHAINABLES': target = _Chainables; break;
-            case 'CONSTANTS':
+            case 'CHAINABLES':
+            case 'METHODS': target = _Methods; break;
+            case 'CONSTANTS': target = _Constants; break;
             case 'PROPERTIES': target = _Properties; break;
-            case 'THORN': target = THORN; break;
-            case 'PLUGINS': target = _Plugins; break;
-            default: target = typeof targetname === 'string' ? Object.create(null) : targetname; break;
+            case 'EXTENSION': target = THORN; break;
+            default:
+                if (Object.isExtensible(targetname))
+                    target = targetname;
+                else return null;
         }
         for (prop in obj) {
             if (obj.hasOwnProperty(prop)) {
@@ -71,7 +73,15 @@
     //First attaches all Plugins to their nodes and then calls the
     //registered onready functions one by one.
     function DOMReady() {
-        var i, l;
+        var i, l, prop;
+
+        //Make all constants immutable
+        for (prop in _Constants)
+            if (!Object.isFrozen(_Constants[prop]))
+                Object.freeze(_Constants[prop]);
+
+        _Methods.CONSTANTS = Object.freeze(_Constants);
+        Object.freeze(_Methods.CONSTANTS);
 
         for (i = 0, l = onLoadFunctions.length; i < l; i++) {
             onLoadFunctions[i]();
@@ -86,7 +96,6 @@
     };
 
     document.addEventListener('DOMContentLoaded', DOMReady, false);
-
 
     window.THORN = window.þ = THORN; // Expose þ to the world
 })();
