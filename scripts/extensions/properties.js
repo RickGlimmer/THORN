@@ -1,4 +1,4 @@
-﻿þ.extend('THORN', {
+﻿þ.extend('EXTENSION', {
     //Create a unique identifier
     //I am not sure where this code comes from!
     //If someone knows we can add the credentials.
