@@ -11,7 +11,7 @@
 
     //Select the parent of the first node
     parent: function (/*TODO ADD A FILTER */) {
-        return this.length ? þ(this.nodes[0].parentNode) : null;
+        return this.length ? þ(this.nodes[0].parentNode) : þ();
     },
 
     //Select the parents from all the nodes
