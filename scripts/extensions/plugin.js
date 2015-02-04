@@ -20,8 +20,8 @@
         this.attach = function (þorn) {
             if (!þorn || !þorn.length) return; // fast exit
             þorn.find('[data-plugin]').each(function () {
-                var pluginNames = this.dataset.plugin.split(' ');
                 var i, þis = þ(this);
+                var pluginNames = þis.dataset.plugin.split(' ');
                 for (i in pluginNames) {
                     _Plugins[pluginNames[i]](þis);
                 }
