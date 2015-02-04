@@ -1,6 +1,6 @@
 ﻿þ.extend('CHAINABLES', {
     bind: function (type, fn, capture) {
-        var i, types = type.split(" ");
+        var i, types = type.toLowerCase().split(" ");
 
         return this.each(function () {
             for (i = 0; i < types.length; i++)
@@ -9,7 +9,7 @@
     },
 
     unbind: function (type, fn, capture) {
-        var i, types = types.split(" ");
+        var i, types = types.toLowerCase().split(" ");
 
         return this.each(function () {
             for (i = 0; i < types.length; i++)
@@ -18,6 +18,7 @@
     },
 
     fire: function (type, detail, canbubblearg, cancelablearg) {
+        var type = type.toLowerCase();
         return this.each(function () {
             var event;
             var elem = typeof this == 'document' ? document.documentElement : this;
