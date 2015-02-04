@@ -5,7 +5,7 @@
         var _Plugins = Object.create(null);
 
         //Register function to attach all plugins on DOMReady
-        þ.onready(function () { þ.plugin.attach(document.body); });
+        þ.onready(function () { þ.plugin.attach(þ(document.body)); });
 
         //Add plugin to collection
         this.add = function (plugin) {
@@ -17,22 +17,22 @@
         //Plugins can be attached to DOM nodes by adding a data-plugin="PluginName" attribute
         //This function is called after the DOM has been loaded.
         //But before user content is dynamically loaded.
-        this.attach = function (elem) {
-            if (!elem) return; // fast exit
-            þ(elem).find('[data-plugin]').each(function () {
+        this.attach = function (þorn) {
+            if (!þorn || !þorn.length) return; // fast exit
+            þorn.find('[data-plugin]').each(function () {
                 var pluginName = this.dataset.plugin;
                 if (pluginName != null) {
-                    _Plugins[pluginName](this);
+                    _Plugins[pluginName](þ(this));
                 }
-            }, true); // get raw Nodes
+            }, true); // get raw objects
         };
 
         //Fire a 'detach' event on all plugins within an element
         //plugin has to cleanup after itself by removing its eventlisteners
         //This gets called before dynamic content is loaded into the element
-        this.detach = function (elem) {
-            if (!elem) return; // fast exit
-            þ(elem).find('[data-plugin]').fire("detach");
+        this.detach = function (þorn) {
+            if (!þorn || !þorn.length) return; // fast exit
+            þorn.find('[data-plugin]').fire("detach");
         };
 
         return this;
@@ -49,11 +49,11 @@
             this.each(
                     function () {
                         þ.plugin.detach(this); //Fires a detach event for plugins to do a cleanup 
-                        this.innerHTML = value; //This is directly on the DOM node;
+                        this.innerHTML = value; //This is directly on the DOM node!!;
                         if (value.indexOf("[data-plugin]") > 0) {
-                            þ.plugin.attach(this);
+                            þ.plugin.attach(þ(this));
                         }
-                    }, true)
+                    }, true) //get raw node
         },
         get: function () {
             return this.nodes[0].innerHTML;
