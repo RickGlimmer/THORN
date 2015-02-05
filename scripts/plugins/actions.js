@@ -5,6 +5,7 @@
             version: "0.1",
             date: "2015-02-04 09:00+07:00"
         }
+        var CONSTANTS = Object.freeze({ FINISHED: 1, ABORT: 2, CONTINUE: 3 });
 
         return (function (þorn) {
             var i, j, key, eventName, thisEvent, eventActions, parts, params;
@@ -15,7 +16,7 @@
                     //plugin: "ACTIONS", evClick: "hide();", evMouseover: "hide();"
                     eventName = key.slice(2).toLowerCase();
                     thisEvent = _Actions[eventName] = [];
-
+                    alert(Object.getPrototypeOf(þorn));
                     eventActions = þorn.dataset[key].split(');');
 
                     for (i = 0; i < eventActions.length - 1; i++) {

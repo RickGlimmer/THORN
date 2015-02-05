@@ -18,12 +18,16 @@
         //This function is called after the DOM has been loaded.
         //But before user content is dynamically loaded.
         this.attach = function (þorn) {
-            if (!þorn || !þorn.length) return; // fast exit
+            if (!þorn || !þorn.length) {
+                return; // fast exit
+            }
             þorn.find('[data-plugin]').each(function () {
-                var i, þis = þ(this);
+                var name, þis = þ(this);
                 var pluginNames = þis.dataset.plugin.split(' ');
-                for (i in pluginNames) {
-                    _Plugins[pluginNames[i]](þis);
+                for (name in pluginNames) {
+                    if (pluginNames.hasOwnProperty(name)) {
+                        _Plugins[pluginNames[name]](þis);
+                    }
                 }
             }, true); // get raw objects
         };
@@ -32,12 +36,14 @@
         //plugin has to cleanup after itself by removing its eventlisteners
         //This gets called before dynamic content is loaded into the element
         this.detach = function (þorn) {
-            if (!þorn || !þorn.length) return; // fast exit
+            if (!þorn || !þorn.length) {
+                return; // fast exit
+            }
             þorn.find('[data-plugin]').fire("detach");
         };
 
         return this;
-    })()
+    }())
 });
 
 //Override the standard innerhtml function
@@ -48,13 +54,15 @@
         sealed: true,
         set: function (value) {
             this.each(
-                    function () {
-                        þ.plugin.detach(this); //Fires a detach event for plugins to do a cleanup 
-                        this.innerHTML = value; //This is directly on the DOM node!!;
-                        if (value.indexOf("[data-plugin]") > 0) {
-                            þ.plugin.attach(þ(this));
-                        }
-                    }, true) //get raw node
+                function () {
+                    þ.plugin.detach(this); //Fires a detach event for plugins to do a cleanup 
+                    this.innerHTML = value; //This is directly on the DOM node!!;
+                    if (value.indexOf("[data-plugin]") > 0) {
+                        þ.plugin.attach(þ(this));
+                    }
+                },
+                true
+            ); //get raw node
         },
         get: function () {
             return this.nodes[0].innerHTML;
