@@ -9,7 +9,7 @@
     },
 
     unbind: function (type, fn, capture) {
-        var i, types = types.toLowerCase().split(" ");
+        var i, types = type.toLowerCase().split(" ");
 
         return this.each(function () {
             for (i = 0; i < types.length; i++)
