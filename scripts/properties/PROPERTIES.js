@@ -1,11 +1,11 @@
 ﻿þ.extend('PROPERTIES', {
     //These can not be chained as all these properties return a value
-    id: { get: function () { return this.nodes[0].id } },
+    id: { get: function () { return this.nodes[0].id; } },
     dataset: { get: function () { return this.nodes[0].dataset; } },
 
     //Access to the raw nodes
     length: { get: function () { return this.nodes ? this.nodes.length : 0; } },
-    firstNode: { get: function () { return this.nodes.length ? this.nodes[0] : null } },
+    firstNode: { get: function () { return this.nodes.length ? this.nodes[0] : null; } },
     allNodes: { get: function () { return this.nodes; } },
 
     //Width,height and position of the first node
@@ -24,14 +24,14 @@
     position: {
         get: function () {
             var node = this.nodes[0],
-             left = parseInt(node.offsetLeft),
-             top = parseInt(node.offsetTop);
+                left = parseInt(node.offsetLeft, 10),
+                top = parseInt(node.offsetTop, 10);
 
             node = node.offsetParent;
 
-            while (node != null) {
-                left += parseInt(node.offsetLeft);
-                top += parseInt(node.offsetTop);
+            while (node !== null) {
+                left += parseInt(node.offsetLeft, 10);
+                top += parseInt(node.offsetTop, 10);
                 node = node.offsetParent;
             }
             return { left: left, top: top };
@@ -42,40 +42,42 @@
     innerHTML: {
         set: function (value) {
             this.each(
-                    function () {
-                        if (this.innerHTML) // Check if this node supports innerHTML
-                            this.innerHTML = value;
-                    }, true)
+                function () {
+                    if (this.innerHTML) { this.innerHTML = value; }
+                },
+                true
+            );
         },
         get: function () {
             return this.nodes[0].innerHTML;
         }
     },
 
-    getAttribute: { get: function (attrname) { return this.nodes[0].getAttribute(attrname) } },
+    getAttribute: { get: function (attrname) { return this.nodes[0].getAttribute(attrname); } },
 
     value: {
         get: function () {
             var node = this.nodes[0];
-            if (node.nodeType == 1) { //node is an element
+            if (node.nodeType === 1) { //node is an element
                 switch (node.tagName) {
                     case 'INPUT':
-                        if (node.type == 'checkbox') return node.checked;
+                        if (node.type === 'checkbox') { return node.checked; }
                         break;
                     case 'OPTION':
                         return node.value || node.text;
                     case 'SELECT':
                         var i, max, index = node.selectedIndex, values = [],
-                        options = node.options, one = node.type == "select-one";
+                            options = node.options, one = node.type === "select-one";
 
-                        if (index < 0) return null; // Nothing was selected
+                        if (index < 0) { return null; } // Nothing was selected
 
-                        if (one) return options[index].value || options[index].text;
+                        if (one) { return options[index].value || options[index].text; }
 
                         // Loop through all options and find the selected ones
+                        var option;
                         for (i = 0, max = options.length; i < max; i++) {
-                            var option = options[i];
-                            if (option.selected) values.push(option.value || option.text);
+                            option = options[i];
+                            if (option.selected) { values.push(option.value || option.text); }
                         }
                         return values;
                 }

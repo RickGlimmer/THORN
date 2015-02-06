@@ -1,5 +1,4 @@
 ﻿þ.extend('EXTENSION', {
-
     //extend THORNs capabilities to allow Plugins for custom functionality
     plugin: (function () {
         var _Plugins = Object.create(null);
@@ -18,9 +17,8 @@
         //This function is called after the DOM has been loaded.
         //But before user content is dynamically loaded.
         this.attach = function (þorn) {
-            if (!þorn || !þorn.length) {
-                return; // fast exit
-            }
+            if (!þorn || !þorn.length) { return; } // fast exit
+
             þorn.find('[data-plugin]').each(function () {
                 var name, þis = þ(this);
                 var pluginNames = þis.dataset.plugin.split(' ');
@@ -36,9 +34,8 @@
         //plugin has to cleanup after itself by removing its eventlisteners
         //This gets called before dynamic content is loaded into the element
         this.detach = function (þorn) {
-            if (!þorn || !þorn.length) {
-                return; // fast exit
-            }
+            if (!þorn || !þorn.length) { return; } // fast exit
+
             þorn.find('[data-plugin]').fire("detach");
         };
 

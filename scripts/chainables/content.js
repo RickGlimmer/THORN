@@ -1,33 +1,36 @@
 ﻿þ.extend('CHAINABLES', {
     //Set attribute on this.nodes
-    attr: function (attrname, val) {
-        if (val == "false") val = false;
-        else if (val == "true") val = true;
+    attr: function (attrname, newvalue) {
+        if (newvalue === 'false') {
+            newvalue = false;
+        } else if (newvalue === 'true') {
+            newvalue = true;
+        }
+
         return this.each(function () {
-            if ((attribute == 'checked' || attribute == "disabled")
-                && (val == '' || val == false || typeof val == "undefined")) {
-                this.removeAttribute(attribute)
-            }
-            else {
-                if (this.getAttribute(attribute) != val) this.setAttribute(attribute, val);
+            if ((attrname === 'checked' || attrname === 'disabled')
+                    && (newvalue === '' || newvalue === false || newvalue === undefined)) {
+                this.removeAttribute(attrname);
+            } else if (this.getAttribute(attrname) !== newvalue) {
+                this.setAttribute(attrname, newvalue);
             }
         }, true);
     },
-    
+
     remove: function () {
         this.each(function () {
-            if (this.parentNode)
-                this.parentNode.removeChild(this);
+            if (this.parentNode) { this.parentNode.removeChild(this); }
         }, true);
     },
 
     html: function (value) {
-        if (value === undefined) return this.innerHTML;
+        if (value === undefined) { return this.innerHTML; }
+
         this.each(function () {
             this.innerHTML = value;//innerHTML on the þ object NOT on the DOM node
         });
         return this;
-    },
+    }
     /*
     TODO.Add a xhr (XMLHTTPRequest) extension to dynamically load content    
 

@@ -3,8 +3,9 @@
         var i, types = type.toLowerCase().split(" ");
 
         return this.each(function () {
-            for (i = 0; i < types.length; i++)
+            for (i = 0; i < types.length; i++) {
                 this.addEventListener(types[i], fn, capture ? true : false);
+            }
         }, true);
     },
 
@@ -12,20 +13,22 @@
         var i, types = type.toLowerCase().split(" ");
 
         return this.each(function () {
-            for (i = 0; i < types.length; i++)
+            for (i = 0; i < types.length; i++) {
                 this.removeEventListener(types[i], fn, capture ? true : false);
+            }
         }, true);
     },
 
     fire: function (type, detail, canbubblearg, cancelablearg) {
-        var type = type.toLowerCase();
+        type = type.toLowerCase();
         return this.each(function () {
             var event;
-            var elem = typeof this == 'document' ? document.documentElement : this;
-            var canBubble = typeof canbubblearg == 'undefined' ? true : canbubblearg;
-            var cancelable = typeof cancelablearg == 'undefined' ? true : cancelablearg;
+            var elem = typeof this === 'document' ? document.documentElement : this;
+            var canBubble = canbubblearg === undefined ? true : canbubblearg;
+            var cancelable = cancelablearg === undefined ? true : cancelablearg;
 
-            if (typeof window.Event == "function") {
+            /*global Event */
+            if (typeof Event === "function") {
                 event = new Event(type, {
                     'bubbles': canBubble,
                     'cancelable': cancelable

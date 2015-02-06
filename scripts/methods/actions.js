@@ -1,11 +1,10 @@
 ﻿//TODO add support for constants to THORN and make them easy to access
 //Untested!!
 þ.extend('CONSTANTS', {
-    ACTIONS: (function() { 
-        var o = Object.create(null);
-        o.DONE = true; o.FINISHED = true; o.ABORT = true; o.CONTINUE = false;
+    ACTIONS: (function () {
+        var o = Object.create({ DONE: true, FINISHED: true, ABORT: true, CONTINUE: false});
         return o;//Object.freeze(o);
-    })()
+    }())
 });
 /* THORN actions extension */
 /*

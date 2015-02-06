@@ -62,6 +62,7 @@
                 target = _Properties;
                 break;
             case 'EXTENSION':
+            case 'PEARLS':
                 target = THORN;
                 break;
             default:
