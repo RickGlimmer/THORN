@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+    <title></title>
+    <link rel="stylesheet" href="/assets/fa/css/font-awesome.min.css">
+    <style>
+        html, body, div {
+            touch-action: none;
+        }
+
+        html, body {
+            height: 100%;
+            overflow:hidden;
+        }
+
+        div {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+            overflow: hidden;
+            border: none;
+        }
+
+        [data-plugin="OSMMap"] {
+            background-color: #dcdcdc;
+            left: -50px;
+            top: 0px;
+            bottom: 20px;
+        }
+
+            [data-plugin="OSMMap"] [data-role="offset"] {
+                left: 0px;
+                top: 0px;
+            }
+
+            [data-plugin="OSMMap"] [data-role="content"] > [data-role="mover"] {
+                touch-action: none;
+                -ms-touch-action: none;
+            }
+
+            [data-plugin="OSMMap"] [data-role="content"] > [data-role="tiles"] {
+                background-color: transparent;
+            }
+
+                [data-plugin="OSMMap"] [data-role="content"] > [data-role="tiles"] > div {
+                    position: relative;
+                    height: 256px;
+                    width: 2560px;
+                }
+
+                    [data-plugin="OSMMap"] [data-role="content"] > [data-role="tiles"] > div > img {
+                        position: relative;
+                        float: left;
+                        width: 256px;
+                        height: 256px;
+                    }
+        .vehicle {
+            width: auto;
+            height: auto;
+            right: auto;
+            bottom: auto;
+            background-color: yellow;
+        }
+
+        .side-bar-left {
+            right:auto;
+            width:50px;
+            background-color:#dcdcdc;
+        }
+            .side-bar-left i {
+                margin-top:6px;
+                margin-bottom:6px;
+                padding-top:4px;
+                padding-bottom:4px;
+                font-size: 20px;
+                width:100%;
+            }
+            .side-bar-left i:hover {
+                background-color:#bcbcbc;
+                color:#707070;
+            }
+            .side-bar-left img.logo {
+                padding-top: 7px;
+                padding-left: 1px;
+                width: 54px;
+            }
+        .search {
+            left: 60px;
+            top: 5px;
+            bottom:auto;
+            right: auto;
+            width: 100px;
+            height:16px;
+            background-color:white;
+            border:1px solid #c0c0c0;
+            font-size:16px;
+        }
+            .search:hover {
+                width:200px;
+            }
+            .search i {
+                float: right;
+                font-size:10px;
+                padding-top:2px;
+            }
+            .footer {
+                top: auto;
+                bottom:0px;
+                left:50px;
+                height: 20px;
+                background-color:#dcdcdc;
+        }
+
+        .fa {
+            color: #808080;
+        }
+
+        #mx {
+            left: 400px;
+            top: 300px;
+            right: auto;
+            bottom: auto;
+            width: 10px;
+            height: 10px;
+            background-color: red;
+        }
+
+    </style>
+    <script src="Assets/THORN/scripts/THORN.js"></script>
+    <!--First load the extensions to the THORN object-->
+    <script src="Assets/THORN/scripts/extensions/properties.js"></script>
+    <script src="Assets/THORN/scripts/extensions/plugin.js"></script>
+    <!--then the properties that set and get values.-->
+    <script src="Assets/THORN/scripts/properties/properties.js"></script>
+    <!--then the methods that return a value for all your class actions suits :) -->
+    <script src="Assets/THORN/scripts/methods/class.js"></script>
+    <script src="Assets/THORN/scripts/methods/actions.js"></script>
+    <!--and finally the chainables that return a THORN object that can be chained-->
+    <script src="Assets/THORN/scripts/chainables/class.js"></script>
+    <script src="Assets/THORN/scripts/chainables/content.js"></script>
+    <script src="Assets/THORN/scripts/chainables/events.js"></script>
+    <script src="Assets/THORN/scripts/chainables/selectors.js"></script>
+    <script src="Assets/THORN/scripts/chainables/style.js"></script>
+    <script src="Assets/script/THORN-PLUGIN-OSMMAP-1.0.js"></script>
+</head>
+<body>
+    <div data-plugin="OSMMap" data-prefix="abc" data-rows="3" data-cols="3" data-x="33657" data-y="21536" data-z="16"></div>
+    <div class="side-bar-left">
+        <img class="logo" src="Assets/Images/flextrack2x.png" />
+        <i class="fa fa-bars fa-fw"></i>
+        <i class="fa fa-plus fa-fw"></i>
+        <i class="fa fa-minus fa-fw"></i>
+        <i class="fa fa-refresh fa-fw"></i>
+        <i title="instellingen" class="fa fa-cog fa-fw"></i>
+    </div>
+    <div class="footer">
+
+    </div>
+    <div class="search">
+        <i class="fa fa-search fa-fw"></i>
+    </div>
+    <div id="mx">X</div>
+</body>
+</html>

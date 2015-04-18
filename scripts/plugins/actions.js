@@ -1,10 +1,15 @@
 ﻿þ.plugin.add({
     ACTIONS: function (þelem) {
         "use strict";
-        this.info = {
+        var info = {
+            //Your info here! :)
             author: "TZ Advantage Ltd.",
             version: "0.1",
-            date: "2015-02-04 09:00+07:00"
+            date: "2015-02-04 09:00+07:00",
+
+            //Internal data for future plugin management
+            data: (function () { þelem.dataset.pluginGuid = þ.guid(); return þelem.dataset; }()),
+            þelem: þelem
         };
 
         var CONSTANTS = Object.freeze({ FINISHED: 1, ABORT: 2, CONTINUE: 3 });
@@ -104,7 +109,7 @@
                     }
                 }
             }
-
+            return info;
         }(þelem));
     }
 });
