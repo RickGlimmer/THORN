@@ -10,13 +10,13 @@
             //Internal data for future plugin management
             data: (function () { þelem.dataset.pluginGuid = þ.guid(); return þelem.dataset; }()),
             þelem: þelem
-        };
+        },
 
-        var CONSTANTS = Object.freeze({ FINISHED: 1, ABORT: 2, CONTINUE: 3 });
+        CONSTANTS = Object.freeze({ FINISHED: 1, ABORT: 2, CONTINUE: 3 });
 
         return (function (þorn) {
-            var i, j, key, eventName, eventActions, action, parts, params;
-            var _Actions = [];
+            var i, j, key, eventName, eventActions, action, parts, params,
+                _Actions = [];
 
             function executeAction() {
                 var nextAction = null;
